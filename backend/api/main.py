@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from backend.api.routes import ingest, documents
+from backend.api.routes import ingest, documents, query
 from backend.config.settings import settings
 import logging
 
@@ -42,7 +42,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 # Routes
 app.include_router(ingest.router, prefix="/api", tags=["ingestion"])
 app.include_router(documents.router, prefix="/api", tags=["documents"])
-# app.include_router(query.router, prefix="/api", tags=["query"])
+app.include_router(query.router, prefix="/api", tags=["query"])
 
 
 @app.get("/health")
