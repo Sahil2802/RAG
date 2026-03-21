@@ -31,6 +31,7 @@ async def generate_answer_stream(
         chunks: Enriched chunk dicts from retrieve_chunks().
     """
     prompt_config = get_active_prompt()
+    # Build context block from chunks
     context_str, citation_map = build_context_block(chunks)
 
     user_message = f"""Context documents:
@@ -59,7 +60,7 @@ Question: {query}"""
             temperature=TEMPERATURE,
             stream=True,
         )
-
+        # Stream the LLM answer token by token
         full_answer = ""
         for chunk in stream:
             token = chunk.choices[0].delta.content or ""

@@ -39,4 +39,4 @@ rag_v2:
     - Bullet points only when listing discrete items.
     - Keep answers under 400 words unless the question requires more detail.
 
-active_prompt: rag_v1
+active_prompt: rag_v2
