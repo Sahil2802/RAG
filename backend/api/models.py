@@ -45,7 +45,8 @@ class CitationMeta(BaseModel):
     page_number: Optional[int]
     chunk_index: int
     pinecone_id: str
-    reranker_score: Optional[float]
+    score: Optional[float] = None           # Final normalized relevance score
+    reranker_score: Optional[float] = None  # Raw cross-encoder score (debug)
 
 
 # Errors

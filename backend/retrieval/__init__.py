@@ -29,13 +29,14 @@ def retrieve_chunks(
 
     Returns top_n chunks ready for the generation layer, each containing:
         - pinecone_id: str
+        - score: float          # final normalized relevance score
         - chunk_text: str
         - file_name: str
         - page_number: int | None
         - chunk_index: int
-        - reranker_score: float
-        - rrf_score: float
-        - sources: list[str]   # which retrievers found this chunk
+        - reranker_score: float  # cross-encoder score (debug)
+        - rrf_score: float       # fusion score (debug)
+        - sources: list[str]     # which retrievers found this chunk
     """
     # Stage 1: Vector search
     vector_results = vector_search(
@@ -103,6 +104,16 @@ def retrieve_chunks(
 
     # Stage 4: Cross-encoder re-ranking
     reranked = rerank(query, enriched, chunk_texts, top_n=final_top_n)
+
+    # Normalize output: set `score` to the most authoritative relevance score.
+    # Priority: reranker_score > rrf_score (ensures a consistent contract
+    # for all downstream consumers like context_builder and citation metadata).
+    for chunk in reranked:
+        chunk["score"] = (
+            chunk.get("reranker_score")
+            if chunk.get("reranker_score") is not None
+            else chunk.get("rrf_score", 0.0)
+        )
 
     logger.info(
         f"Hybrid retrieval complete — "

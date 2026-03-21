@@ -38,6 +38,7 @@ def build_context_block(chunks: list[dict]) -> tuple[str, list[dict]]:
             "chunk_index": chunk["chunk_index"],
             "pinecone_id": chunk["pinecone_id"],
             "score": chunk.get("score"),
+            "reranker_score": chunk.get("reranker_score"),
         })
 
     context_str = "\n\n---\n\n".join(parts)

@@ -50,15 +50,21 @@ def rebuild_bm25_index(supabase_client) -> None:
         tokenized = [text.lower().split() for text in chunk_texts]
         bm25 = BM25Okapi(tokenized)
 
+        # Ensure bucket exists
+        buckets = supabase_client.storage.list_buckets()
+        if not any(b.name == STORAGE_BUCKET for b in buckets):
+            supabase_client.storage.create_bucket(STORAGE_BUCKET, options={"public": False})
+            logger.info(f"Created missing storage bucket: {STORAGE_BUCKET}")
+
         # Serialize and upload to Supabase Storage
         payload = pickle.dumps({"bm25": bm25, "pinecone_ids": pinecone_ids})
 
-        # Ensure bucket exists (handled in DB schema but this is safer)
         supabase_client.storage.from_(STORAGE_BUCKET).upload(
             path=STORAGE_KEY,
             file=payload,
             file_options={"upsert": "true"},
         )
+
 
         # Update module cache so we don't need to re-download
         _cached_bm25 = bm25
