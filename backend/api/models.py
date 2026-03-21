@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
 
-# ── Ingest ────────────────────────────────────────────
+# Ingest
 
 
 class IngestResponse(BaseModel):
@@ -11,7 +11,7 @@ class IngestResponse(BaseModel):
     message: Optional[str] = None
 
 
-# ── Documents ─────────────────────────────────────────
+# Documents
 
 
 class DocumentRecord(BaseModel):
@@ -31,7 +31,7 @@ class DocumentListResponse(BaseModel):
     total: int
 
 
-# ── Query ─────────────────────────────────────────────
+# Query
 
 
 class QueryRequest(BaseModel):
@@ -48,7 +48,7 @@ class CitationMeta(BaseModel):
     reranker_score: Optional[float]
 
 
-# ── Errors ────────────────────────────────────────────
+# Errors
 
 
 class ErrorResponse(BaseModel):
