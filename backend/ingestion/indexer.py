@@ -50,17 +50,21 @@ def upsert_to_pinecone(
     """
     vectors = []
     for chunk, embedding in zip(chunks, embeddings):
+        metadata = {
+            "document_id": document_id,
+            "file_name": file_name,
+            "chunk_index": chunk["chunk_index"],
+            "chunk_text": chunk["chunk_text"],
+            "token_count": chunk["token_count"],
+        }
+        # Pinecone metadata doesn't allow nulls
+        if chunk.get("page_number") is not None:
+            metadata["page_number"] = chunk["page_number"]
+
         vectors.append({
             "id": chunk["pinecone_id"],
             "values": embedding,
-            "metadata": {
-                "document_id": document_id,
-                "file_name": file_name,
-                "chunk_index": chunk["chunk_index"],
-                "page_number": chunk["page_number"],
-                "chunk_text": chunk["chunk_text"],
-                "token_count": chunk["token_count"],
-            }
+            "metadata": metadata
         })
 
     # Batch upserts
