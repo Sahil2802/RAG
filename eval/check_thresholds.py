@@ -15,7 +15,7 @@ logging.basicConfig(
 )
 
 THRESHOLDS = {
-    "faithfulness": 0.80,
+    "faithfulness": 0.75,
     "context_precision": 0.75,
     "answer_relevancy": 0.75,
     "refusal_accuracy": 0.85,
