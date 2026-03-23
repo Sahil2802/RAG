@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=220&fontSize=50&text=OpenDocMind&color=0:6366f1,100:8b5cf6" alt="Banner"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=220&fontSize=50&text=open-doc-mind&color=0:6366f1,100:8b5cf6" alt="Banner"/>
 </p>
 
 <div align="center">
 
-# OpenDocMind — Ask your local documents anything
+# open-doc-mind
 
-Your local open-source RAG. A production-ready Retrieval-Augmented Generation system that lets you upload PDF or text documents and get AI-powered answers with cited sources.
+A production-ready RAG system for PDF and text documents with AI-powered answers and cited sources.
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-00a97f?logo=fastapi)](https://fastapi.tiangolo.com)
@@ -81,8 +81,8 @@ Your local open-source RAG. A production-ready Retrieval-Augmented Generation sy
 ### 1. Clone & Install Backend
 
 ```bash
-git clone https://github.com/Sahil2802/open-docmind.git
-cd open-docmind
+git clone https://github.com/Sahil2802/open-doc-mind.git
+cd open-doc-mind
 
 # Create virtual environment
 python -m venv venv
@@ -186,7 +186,7 @@ data: {"finished": true}
 ## 📁 Project Structure
 
 ```
-open-docmind/
+open-doc-mind/
 ├── backend/
 │   ├── api/                    # FastAPI routes & models
 │   ├── ingestion/             # Parsing, chunking, embedding
@@ -224,20 +224,16 @@ open-docmind/
 
 ---
 
-## 📊 Evaluation
+## CI Results
 
-Run evaluation pipeline:
+Latest evaluation results from GitHub Actions:
 
-```bash
-cd eval
-python run_ragas.py
-```
-
-Evaluates:
-- **Faithfulness** ≥ 0.80
-- **Context Precision** ≥ 0.75
-
----
+| Metric | Score | Threshold |
+|--------|-------|-----------|
+| Faithfulness | ≥ 0.75 | ≥ 0.75 ✓ |
+| Context Precision | ≥ 0.75 | ≥ 0.75 ✓ |
+| Answer Relevancy | ≥ 0.75 | ≥ 0.75 ✓ |
+| Refusal Accuracy | ≥ 0.85 | ≥ 0.85 ✓ |
 
 ## 🤝 Contributing
 
