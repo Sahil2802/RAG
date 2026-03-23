@@ -57,19 +57,31 @@ jobs:
             exit 1
           fi
 
+      - name: Detect eval script location
+        run: |
+          if [ -f eval/run_ragas.py ] && [ -f eval/check_thresholds.py ]; then
+            echo "EVAL_DIR=eval" >> "$GITHUB_ENV"
+          elif [ -f backend/eval/run_ragas.py ] && [ -f backend/eval/check_thresholds.py ]; then
+            echo "EVAL_DIR=backend/eval" >> "$GITHUB_ENV"
+          else
+            echo "Could not find run_ragas.py and check_thresholds.py" >&2
+            find . -maxdepth 4 -type f | sed 's#^./##' | sort
+            exit 1
+          fi
+
       - name: Run evaluation
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
-          python eval/run_ragas.py --output eval/results/ci_run.json
+          python $EVAL_DIR/run_ragas.py --output $EVAL_DIR/results/ci_run.json
 
       - name: Check thresholds
         run: |
-          python eval/check_thresholds.py eval/results/ci_run.json
+          python $EVAL_DIR/check_thresholds.py $EVAL_DIR/results/ci_run.json
 
       - name: Upload results artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: eval-results-${{ github.run_id }}
-          path: eval/results/ci_run.json
+          path: ${{ env.EVAL_DIR }}/results/ci_run.json
