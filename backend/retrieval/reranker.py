@@ -4,13 +4,18 @@ from sentence_transformers import CrossEncoder
 
 logger = logging.getLogger(__name__)
 
-# Load once at module level — ~85MB model, loaded at startup
-# Cross-encoder sees the full (query, passage) pair together for accurate scoring
-_reranker = CrossEncoder(
-    "cross-encoder/ms-marco-MiniLM-L-6-v2",
-    max_length=512,
-)
-logger.info("Cross-encoder re-ranker loaded: cross-encoder/ms-marco-MiniLM-L-6-v2")
+_reranker: CrossEncoder | None = None
+
+
+def _get_reranker() -> CrossEncoder:
+    global _reranker
+    if _reranker is None:
+        logger.info("Loading cross-encoder re-ranker: cross-encoder/ms-marco-MiniLM-L-6-v2")
+        _reranker = CrossEncoder(
+            "cross-encoder/ms-marco-MiniLM-L-6-v2",
+            max_length=512,
+        )
+    return _reranker
 
 
 def rerank(
@@ -46,7 +51,8 @@ def rerank(
     ]
 
     try:
-        scores = _reranker.predict(pairs)
+        reranker = _get_reranker()
+        scores = reranker.predict(pairs)
     except Exception as e:
         logger.error(f"Cross-encoder re-ranking failed: {e}", exc_info=True)
         # Fallback: return candidates in original order without reranker scores
