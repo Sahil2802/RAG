@@ -1,13 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, BackgroundTasks, HTTPException
 from supabase import create_client
 from backend.config.settings import settings
-from backend.ingestion.parser import parse_document
-from backend.ingestion.chunker import chunk_pages
-from backend.ingestion.embedder import embed_passages
-from backend.ingestion.indexer import (
-    compute_file_hash, is_duplicate,
-    store_file, upsert_to_pinecone
-)
 import uuid
 import logging
 
@@ -23,6 +16,8 @@ async def ingest_document(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
 ):
+    from backend.ingestion.indexer import compute_file_hash, is_duplicate
+
     # Validate file type
     if file.content_type not in ALLOWED_MIME_TYPES:
         raise HTTPException(
@@ -78,6 +73,11 @@ async def run_ingestion_pipeline(
     file_bytes, file_name, mime_type,
     file_hash, document_id, supabase
 ):
+    from backend.ingestion.parser import parse_document
+    from backend.ingestion.chunker import chunk_pages
+    from backend.ingestion.embedder import embed_passages
+    from backend.ingestion.indexer import store_file, upsert_to_pinecone
+
     try:
         # 1. Store raw file
         await store_file(file_bytes, file_name, document_id, supabase)

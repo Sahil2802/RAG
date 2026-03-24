@@ -4,9 +4,6 @@ import logging
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from backend.api.models import QueryRequest
-from backend.retrieval import retrieve_chunks
-from backend.generation.llm import generate_answer_stream
-from backend.generation.citation_check import enforce_citations
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +25,10 @@ async def query_documents(request: QueryRequest):
     """
 
     async def event_stream():
+        from backend.retrieval import retrieve_chunks
+        from backend.generation.llm import generate_answer_stream
+        from backend.generation.citation_check import enforce_citations
+
         start_ms = int(time.time() * 1000)
 
         try:

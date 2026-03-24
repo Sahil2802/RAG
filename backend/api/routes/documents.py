@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from supabase import create_client
-from pinecone import Pinecone
 from backend.config.settings import settings
 from backend.api.models import DocumentRecord, DocumentListResponse
 
@@ -35,6 +34,8 @@ async def get_document(document_id: str):
 
 @router.delete("/documents/{document_id}", status_code=204)
 async def delete_document(document_id: str):
+    from pinecone import Pinecone
+
     supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_KEY)
 
     # Delete vectors from Pinecone first
