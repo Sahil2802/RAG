@@ -25,9 +25,17 @@ async def query_documents(request: QueryRequest):
     """
 
     async def event_stream():
-        from backend.retrieval import retrieve_chunks
-        from backend.generation.llm import generate_answer_stream
-        from backend.generation.citation_check import enforce_citations
+        try:
+            from backend.retrieval import retrieve_chunks
+            from backend.generation.llm import generate_answer_stream
+            from backend.generation.citation_check import enforce_citations
+        except Exception as e:
+            logger.error(f"Query dependency import failed: {e}", exc_info=True)
+            yield (
+                f"event: error\ndata: {json.dumps({'message': f'Query initialization failed: {str(e)[:200]}'})}\n\n"
+            )
+            yield f"event: done\ndata: {{}}\n\n"
+            return
 
         start_ms = int(time.time() * 1000)
 
