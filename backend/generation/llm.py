@@ -8,11 +8,19 @@ from backend.generation.context_builder import build_context_block
 
 logger = logging.getLogger(__name__)
 
-_client = Groq(api_key=settings.GROQ_API_KEY)
+_client = None
 
 MODEL = "llama-3.1-8b-instant"
 MAX_TOKENS = 1024
 TEMPERATURE = 0.1  # Low temperature for factual RAG — less creative drift
+
+
+def _get_client() -> Groq:
+    global _client
+    if _client is None:
+        _client = Groq(api_key=settings.GROQ_API_KEY)
+    return _client
+
 
 
 async def generate_answer_stream(
@@ -52,7 +60,8 @@ Remember: After every factual claim, cite the source using [Source: file_name]. 
     try:
         # Groq SDK's create() with stream=True returns a synchronous iterator.
         # We iterate synchronously and yield from the async generator.
-        stream = _client.chat.completions.create(
+        client = _get_client()
+        stream = client.chat.completions.create(
             model=MODEL,
             messages=[
                 {"role": "system", "content": prompt_config["system"]},
