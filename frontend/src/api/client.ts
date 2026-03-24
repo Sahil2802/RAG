@@ -53,62 +53,82 @@ export async function streamQuery(
   callbacks: QueryStreamCallbacks,
   signal?: AbortSignal,
 ): Promise<void> {
-  const res = await fetch(`${API_BASE}/api/query`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, document_id: documentId }),
-    signal,
-  });
+  let doneReceived = false;
 
-  if (!res.ok || !res.body) {
-    callbacks.onError('Failed to connect to query endpoint');
-    return;
-  }
+  try {
+    const res = await fetch(`${API_BASE}/api/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, document_id: documentId }),
+      signal,
+    });
 
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = '';
+    if (!res.ok || !res.body) {
+      callbacks.onError('Failed to connect to query endpoint');
+      return;
+    }
 
-  while (true) {
-    const { value, done } = await reader.read();
-    if (done) break;
-
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split('\n');
-    buffer = lines.pop() ?? '';
-
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
     let currentEvent = '';
-    for (const line of lines) {
-      if (line.startsWith('event: ')) {
-        currentEvent = line.slice(7).trim();
-      } else if (line.startsWith('data: ')) {
-        const dataStr = line.slice(6).trim();
-        try {
-          const data = JSON.parse(dataStr);
-          switch (currentEvent) {
-            case 'token':
-              callbacks.onToken(data.text);
-              break;
-            case 'citations':
-              callbacks.onCitations(data);
-              break;
-            case 'replace':
-              callbacks.onReplace(data.text);
-              break;
-            case 'done':
-              callbacks.onDone();
-              break;
-            case 'refused':
-              callbacks.onRefused(data.text);
-              break;
-            case 'error':
-              callbacks.onError(data.message);
-              break;
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() ?? '';
+
+      for (const rawLine of lines) {
+        const line = rawLine.trimEnd();
+        if (!line) continue;
+
+        if (line.startsWith('event: ')) {
+          currentEvent = line.slice(7).trim();
+        } else if (line.startsWith('data: ')) {
+          const dataStr = line.slice(6).trim();
+          try {
+            const data = JSON.parse(dataStr);
+            switch (currentEvent) {
+              case 'token':
+                callbacks.onToken(data.text);
+                break;
+              case 'citations':
+                callbacks.onCitations(data);
+                break;
+              case 'replace':
+                callbacks.onReplace(data.text);
+                break;
+              case 'done':
+                doneReceived = true;
+                callbacks.onDone();
+                break;
+              case 'refused':
+                callbacks.onRefused(data.text);
+                break;
+              case 'error':
+                callbacks.onError(data.message);
+                break;
+            }
+          } catch {
+            // Malformed JSON in stream — skip
           }
-        } catch {
-          // Malformed JSON in stream — skip
         }
       }
     }
+
+    if (!doneReceived) {
+      callbacks.onDone();
+    }
+  } catch (error) {
+    // Abort is user-initiated via Stop button; avoid surfacing it as an error.
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      callbacks.onDone();
+      return;
+    }
+    callbacks.onError('Query stream interrupted. Please try again.');
+    callbacks.onDone();
   }
 }

@@ -38,54 +38,62 @@ export function useChat(selectedDocumentId: string | null) {
     setIsLoading(true);
 
     abortRef.current = new AbortController();
-
-    await streamQuery(
-      query,
-      selectedDocumentId,
-      {
-        onToken: (token) => {
-          setMessages(prev => prev.map(m =>
-            m.id === assistantId
-              ? { ...m, text: m.text + token }
-              : m
-          ));
+    try {
+      await streamQuery(
+        query,
+        selectedDocumentId,
+        {
+          onToken: (token) => {
+            setMessages(prev => prev.map(m =>
+              m.id === assistantId
+                ? { ...m, text: m.text + token }
+                : m
+            ));
+          },
+          onCitations: (citations: CitationMeta[]) => {
+            setMessages(prev => prev.map(m =>
+              m.id === assistantId ? { ...m, citations } : m
+            ));
+          },
+          onReplace: (fullText: string) => {
+            setMessages(prev => prev.map(m =>
+              m.id === assistantId
+                ? { ...m, text: fullText, wasRefused: true }
+                : m
+            ));
+          },
+          onDone: () => {
+            setMessages(prev => prev.map(m =>
+              m.id === assistantId ? { ...m, isStreaming: false } : m
+            ));
+            setIsLoading(false);
+          },
+          onRefused: (text: string) => {
+            setMessages(prev => prev.map(m =>
+              m.id === assistantId
+                ? { ...m, text, wasRefused: true }
+                : m
+            ));
+          },
+          onError: (message: string) => {
+            setMessages(prev => prev.map(m =>
+              m.id === assistantId
+                ? { ...m, text: message, isStreaming: false, wasRefused: true }
+                : m
+            ));
+            setIsLoading(false);
+          },
         },
-        onCitations: (citations: CitationMeta[]) => {
-          setMessages(prev => prev.map(m =>
-            m.id === assistantId ? { ...m, citations } : m
-          ));
-        },
-        onReplace: (fullText: string) => {
-          setMessages(prev => prev.map(m =>
-            m.id === assistantId
-              ? { ...m, text: fullText, wasRefused: true }
-              : m
-          ));
-        },
-        onDone: () => {
-          setMessages(prev => prev.map(m =>
-            m.id === assistantId ? { ...m, isStreaming: false } : m
-          ));
-          setIsLoading(false);
-        },
-        onRefused: (text: string) => {
-          setMessages(prev => prev.map(m =>
-            m.id === assistantId
-              ? { ...m, text, wasRefused: true }
-              : m
-          ));
-        },
-        onError: (message: string) => {
-          setMessages(prev => prev.map(m =>
-            m.id === assistantId
-              ? { ...m, text: message, isStreaming: false, wasRefused: true }
-              : m
-          ));
-          setIsLoading(false);
-        },
-      },
-      abortRef.current.signal,
-    );
+        abortRef.current.signal,
+      );
+    } catch {
+      setMessages(prev => prev.map(m =>
+        m.id === assistantId
+          ? { ...m, text: 'Unexpected chat error. Please try again.', isStreaming: false, wasRefused: true }
+          : m
+      ));
+      setIsLoading(false);
+    }
   }, [isLoading, selectedDocumentId]);
 
   const stopStreaming = useCallback(() => {
