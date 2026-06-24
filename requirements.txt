@@ -4,3 +4,4 @@ langchain-core
 langchain-community
 pymupdf
 sentence-transformers
+langchain_ollama
