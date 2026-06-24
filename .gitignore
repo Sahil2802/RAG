@@ -9,6 +9,7 @@ wheels/
 # Virtual environments
 .venv
 
-data/   
+data/
+faiss_store/
 
 *.md

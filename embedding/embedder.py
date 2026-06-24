@@ -1,13 +1,16 @@
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-_BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages:"
+_BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
+
 
 class Embedder:
     def __init__(self, model: str = "BAAI/bge-small-en-v1.5") -> None:
         self.model = SentenceTransformer(model)
     
     def embed_documents(self, texts: list[str], batch_size: int = 32) -> list[list[float]]:
+        if not texts:
+            return []
         embeddings = self.model.encode(texts,batch_size=batch_size, convert_to_numpy=True)
         return embeddings.tolist()
 
