@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Message, Sources } from '../types';
+import type { Message, Sources } from '../types';
 
 export function useChat(): {
   messages: Message[];

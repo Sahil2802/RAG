@@ -1,4 +1,4 @@
-import { Message as MessageType } from '../types';
+import type { Message as MessageType } from '../types';
 import { SourcesPanel } from './SourcesPanel';
 
 interface MessageProps {
