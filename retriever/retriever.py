@@ -17,7 +17,7 @@ def retrieve(query: str,
     for rank, (dist, idx) in enumerate(zip(distances[0], indices[0])):
         if idx == -1 or dist > score_threshold:
             continue
-        similarity = round(1 / (1 + dist), 4)
+        similarity = round(float(1 / (1 + dist)), 4)
         retrieved_docs.append({
             "id": int(idx),
             "content": chunks[idx].page_content,
