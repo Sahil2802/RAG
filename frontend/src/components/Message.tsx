@@ -3,13 +3,26 @@ import { SourcesPanel } from './SourcesPanel';
 
 interface MessageProps {
   message: MessageType;
+  index: number;
 }
 
-export function Message({ message }: MessageProps) {
+export function Message({ message, index }: MessageProps) {
+  const delay = Math.min(index * 20, 80);
+
   if (message.role === 'user') {
     return (
-      <div className="flex justify-end">
-        <div className="max-w-[75%] bg-blue-600 text-white rounded-2xl rounded-tr-sm px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words shadow-sm">
+      <div
+        className="flex justify-end message-enter"
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        <div
+          className="max-w-[72%] px-4 py-2.5 rounded-2xl rounded-tr-sm text-sm leading-relaxed whitespace-pre-wrap break-words"
+          style={{
+            background: 'var(--color-amber-dim)',
+            color: 'var(--color-ink)',
+            border: '1px solid oklch(0.30 0.06 48)',
+          }}
+        >
           {message.content}
         </div>
       </div>
@@ -17,20 +30,38 @@ export function Message({ message }: MessageProps) {
   }
 
   return (
-    <div className="flex justify-start">
-      <div className="max-w-[85%] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+    <div
+      className="flex justify-start message-enter"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <div className="w-full flex flex-col gap-2">
         {message.sources && <SourcesPanel sources={message.sources} />}
-        {message.isStreaming && message.content === '' ? (
-          <div className="flex items-center gap-1 h-5">
-            <span className="typing-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-500 inline-block" />
-            <span className="typing-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-500 inline-block" />
-            <span className="typing-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-500 inline-block" />
-          </div>
-        ) : (
-          <p className={`text-sm leading-relaxed text-slate-800 dark:text-slate-200 whitespace-pre-wrap break-words${message.isStreaming ? ' streaming-cursor' : ''}`}>
-            {message.content}
-          </p>
-        )}
+
+        <div
+          className="text-sm leading-[1.75] whitespace-pre-wrap break-words"
+          style={{ color: 'var(--color-ink)' }}
+        >
+          {message.isStreaming && message.content === '' ? (
+            <div className="flex items-center gap-1.5 h-5">
+              <span
+                className="typing-dot w-1.5 h-1.5 rounded-full inline-block"
+                style={{ background: 'var(--color-ink-subtle)' }}
+              />
+              <span
+                className="typing-dot w-1.5 h-1.5 rounded-full inline-block"
+                style={{ background: 'var(--color-ink-subtle)' }}
+              />
+              <span
+                className="typing-dot w-1.5 h-1.5 rounded-full inline-block"
+                style={{ background: 'var(--color-ink-subtle)' }}
+              />
+            </div>
+          ) : (
+            <p className={message.isStreaming ? 'streaming-cursor' : ''}>
+              {message.content}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

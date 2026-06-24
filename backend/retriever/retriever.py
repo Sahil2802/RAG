@@ -3,13 +3,14 @@ import faiss
 from embedding.embedder import Embedder
 from langchain_core.documents import Document
 
-def retrieve(query: str, 
-             index: faiss.IndexFlatL2, 
-             chunks: list[Document], 
-             embedder: Embedder, 
-             top_k: int = 5, 
-             score_threshold: float = 1.5) -> list[dict]:
-    
+def retrieve(query: str,
+             index: faiss.IndexFlatL2,
+             chunks: list[Document],
+             embedder: Embedder,
+             top_k: int = 5,
+             score_threshold: float = 1.5,
+             min_similarity: float = 0.65) -> list[dict]:
+
     query_vector = np.array([embedder.embed_query(query)], dtype=np.float32)
     distances, indices = index.search(query_vector, top_k)
 
@@ -18,6 +19,8 @@ def retrieve(query: str,
         if idx == -1 or dist > score_threshold:  # idx==-1 means FAISS found fewer results than top_k
             continue
         similarity = round(float(1 / (1 + dist)), 4)  # maps L2 distance → (0,1]: closer = higher score
+        if similarity < min_similarity:
+            continue
         retrieved_docs.append({
             "id": int(idx),
             "content": chunks[idx].page_content,

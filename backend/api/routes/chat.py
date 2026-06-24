@@ -39,8 +39,9 @@ def chat(request: ChatRequest):
         try:
             # Fresh retrieval for the latest question.
             docs = retrieve(question, engine["index"], engine["chunks"], engine["embedder"])
-            # Metadata is known up front send it before streaming the answer.
-            yield _sse("sources", build_sources(docs))
+            # Only send sources when retrieval found relevant documents.
+            if docs:
+                yield _sse("sources", build_sources(docs))
             for token in stream_answer(messages, docs):
                 yield _sse("token", {"text": token})
             yield _sse("done", {})
