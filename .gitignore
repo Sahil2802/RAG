@@ -13,3 +13,9 @@ data/
 faiss_store/
 
 *.md
+
+graphify-out/
+.impeccable/
+.superpowers/
+
+
