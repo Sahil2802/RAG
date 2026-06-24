@@ -15,9 +15,9 @@ def retrieve(query: str,
 
     retrieved_docs = []
     for rank, (dist, idx) in enumerate(zip(distances[0], indices[0])):
-        if idx == -1 or dist > score_threshold:
+        if idx == -1 or dist > score_threshold:  # idx==-1 means FAISS found fewer results than top_k
             continue
-        similarity = round(float(1 / (1 + dist)), 4)
+        similarity = round(float(1 / (1 + dist)), 4)  # maps L2 distance → (0,1]: closer = higher score
         retrieved_docs.append({
             "id": int(idx),
             "content": chunks[idx].page_content,
