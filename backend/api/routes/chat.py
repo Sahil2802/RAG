@@ -39,9 +39,14 @@ def chat(request: ChatRequest):
         try:
             # Fresh retrieval for the latest question.
             docs = retrieve(question, engine["index"], engine["chunks"], engine["embedder"])
-            # Only send sources when retrieval found relevant documents.
-            if docs:
-                yield _sse("sources", build_sources(docs))
+            # Off-topic gate: no chunk cleared the similarity bar, so there's
+            # nothing to ground an answer in. Reply plainly instead of letting
+            # the model answer from training knowledge.
+            if not docs:
+                yield _sse("token", {"text": "This information is not in the provided documents."})
+                yield _sse("done", {})
+                return
+            yield _sse("sources", build_sources(docs))
             for token in stream_answer(messages, docs):
                 yield _sse("token", {"text": token})
             yield _sse("done", {})
