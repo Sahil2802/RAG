@@ -19,6 +19,8 @@ def _sse(event: str, data: dict) -> str:
 
 @router.get("/health")
 def health():
+    # If the qdrant_storage folder didn't exist when the app started, 
+    # engine would be empty -> loaded would be False.
     loaded = "client" in engine
     return {
         "status": "ok",
@@ -54,4 +56,7 @@ def chat(request: ChatRequest):
         except Exception as e:
             yield _sse("error", {"message": str(e)})
 
+    # event_stream() creates a generator object (body doesn't run yet).
+    # StreamingResponse iterates it, which drives the body to execute
+    # and sends each yielded SSE chunk to the client as it's produced.
     return StreamingResponse(event_stream(), media_type="text/event-stream")
