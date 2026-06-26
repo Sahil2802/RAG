@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from embedding.embedder import Embedder
-from vectorstore.faiss_store import load_store, STORE_DIR
+from vectorstore.qdrant_store import load_store, STORE_DIR, COLLECTION
 from api.state import engine
 from api.routes import chat
 
@@ -15,12 +15,11 @@ from api.routes import chat
 async def lifespan(app: FastAPI):
     # The first part of the function, before the yield, will be executed before the application starts.
     # Load the store + embedder ONCE at startup, reuse for every request.
-    if Path(STORE_DIR, "index.faiss").exists():
-        index, chunks = load_store(STORE_DIR)
-        engine["index"] = index
-        engine["chunks"] = chunks
+    if Path(STORE_DIR).exists():
+        client = load_store(STORE_DIR)
+        engine["client"] = client
         engine["embedder"] = Embedder()
-        print(f"Engine ready: {index.ntotal} vectors loaded.")
+        print(f"Engine ready: {client.get_collection(COLLECTION).points_count} vectors loaded.")
     else:
         print(f"No store in '{STORE_DIR}'. Run `python ingest.py` first.")
     yield # the part after the yield will be executed after the application has finished.

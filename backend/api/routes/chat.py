@@ -7,6 +7,7 @@ from api.schemas import ChatRequest
 from api.state import engine
 from retriever.retriever import retrieve
 from generation.generator import stream_answer, build_sources
+from vectorstore.qdrant_store import COLLECTION
 
 router = APIRouter()
 
@@ -18,18 +19,18 @@ def _sse(event: str, data: dict) -> str:
 
 @router.get("/health")
 def health():
-    loaded = "index" in engine
+    loaded = "client" in engine
     return {
         "status": "ok",
         "store_loaded": loaded,
-        "vector_count": engine["index"].ntotal if loaded else 0,
+        "vector_count": engine["client"].get_collection(COLLECTION).points_count if loaded else 0,
     }
 
 
 @router.post("/chat")
 def chat(request: ChatRequest):
     def event_stream():
-        if "index" not in engine:
+        if "client" not in engine:
             yield _sse("error", {"message": "No documents indexed. Run `python ingest.py` first."})
             return
 
@@ -38,7 +39,7 @@ def chat(request: ChatRequest):
 
         try:
             # Fresh retrieval for the latest question.
-            docs = retrieve(question, engine["index"], engine["chunks"], engine["embedder"])
+            docs = retrieve(question, engine["client"], engine["embedder"])
             # Off-topic gate: no chunk cleared the similarity bar, so there's
             # nothing to ground an answer in. Reply plainly instead of letting
             # the model answer from training knowledge.
