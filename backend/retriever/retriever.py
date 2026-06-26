@@ -9,7 +9,7 @@ def retrieve(
     client: QdrantClient,
     embedder: Embedder,
     top_k: int = 5,
-    min_similarity: float = 0.4,
+    min_similarity: float = 0.65,
 ) -> list[dict]:
     """Retrieve the top-k most similar documents for a query from Qdrant.
 
