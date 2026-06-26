@@ -11,8 +11,10 @@ wheels/
 
 data/
 faiss_store/
+qdrant_storage/
 
 *.md
+.vscode/
 
 graphify-out/
 .impeccable/

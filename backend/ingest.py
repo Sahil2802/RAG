@@ -1,7 +1,7 @@
 from ingestion.loader import load_dir
 from ingestion.chunker import chunk_documents
 from embedding.embedder import Embedder
-from vectorstore.faiss_store import build_index, save_store, STORE_DIR
+from vectorstore.qdrant_store import build_and_save, STORE_DIR
 
 def ingest(source: str, store_dir: str = STORE_DIR) -> None:
     print(f"Step [1/4] Loading documents from '{source}' ...")
@@ -20,10 +20,9 @@ def ingest(source: str, store_dir: str = STORE_DIR) -> None:
     embeddings = embedder.embed_documents(texts)
     print(f"      {len(embeddings)} embeddings  (dim={len(embeddings[0])})")
     
-    print(f"Step [4/4] Building FAISS ...")
-    index = build_index(embeddings)
-    save_store(index, chunks, store_dir)
-    print(f"      Done {index.ntotal} vectors stored")
+    print(f"Step [4/4] Building Qdrant index ...")
+    build_and_save(embeddings, chunks, store_dir)
+    print(f"      Done. {len(embeddings)} vectors stored")
 
     
 if __name__ == "__main__":
