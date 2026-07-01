@@ -12,10 +12,10 @@ class Embedder:
         if not texts:
             return []
         # convert docs into a numerical vector (embedding)
-        embeddings = self.model.encode(texts,batch_size=batch_size, convert_to_numpy=True)
+        embeddings = self.model.encode(texts,batch_size=batch_size, convert_to_numpy=True, normalize_embeddings=True)
         return embeddings.tolist()
 
     def embed_query(self, query: str) -> list[float]:
         # convert query into a numerical vector (embedding)
-        embedding = self.model.encode(_BGE_QUERY_PREFIX + query, convert_to_numpy=True)
+        embedding = self.model.encode(_BGE_QUERY_PREFIX + query, convert_to_numpy=True, normalize_embeddings=True)
         return embedding.tolist()
