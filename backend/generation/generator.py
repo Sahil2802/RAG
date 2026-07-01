@@ -1,3 +1,4 @@
+from langsmith import traceable
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import PromptTemplate
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
@@ -47,6 +48,7 @@ def _label_context(docs: list[dict]) -> str:
 
 
 # single turn generation
+@traceable(run_type="chain", name="generate")
 def generate(query: str, docs: list[dict]) -> dict:
     if not docs:
         return {"answer": "This information is not in the provided documents.", "citations": [], "confidence": 0.0}
@@ -86,6 +88,7 @@ def _build_messages(messages: list[dict], docs: list[dict]) -> list:
     return chat
 
 
+@traceable(run_type="chain", name="stream_answer")
 def stream_answer(messages: list[dict], docs: list[dict]):
     # Yields answer tokens one at a time so the API can stream them.
     chat = _build_messages(messages, docs)

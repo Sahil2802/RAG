@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
 from pathlib import Path
 
+import observability  # noqa: F401  -- loads .env / enables LangSmith tracing
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

@@ -1,4 +1,5 @@
 from pathlib import Path
+import observability  # noqa: F401  -- loads .env / enables LangSmith tracing
 from embedding.embedder import Embedder
 from vectorstore.qdrant_store import load_store, STORE_DIR
 from retriever.retriever import retrieve

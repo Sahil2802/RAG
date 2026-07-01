@@ -1,9 +1,11 @@
+from langsmith import traceable
 from qdrant_client import QdrantClient
 
 from embedding.embedder import Embedder
 from vectorstore.qdrant_store import COLLECTION
 
 
+@traceable(run_type="retriever", name="qdrant_retrieve")
 def retrieve(
     query: str,
     client: QdrantClient,

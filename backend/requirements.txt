@@ -6,3 +6,5 @@ pymupdf
 sentence-transformers
 langchain_ollama
 fastapi[standard]
+langsmith
+python-dotenv

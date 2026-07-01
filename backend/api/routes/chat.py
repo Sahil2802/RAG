@@ -1,5 +1,6 @@
 import json
 
+from langsmith import traceable
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
@@ -46,6 +47,31 @@ def health():
     }
 
 
+@traceable(run_type="chain", name="rag_chat")
+def _run_chat(messages: list[dict]):
+    # One LangSmith trace per request: retrieval and generation nest under this
+    # parent run. Yields (event, data) pairs; the route turns them into SSE so
+    # transport framing stays out of the trace.
+    question = messages[-1]["content"]
+
+    if _is_injection(question):
+        yield "token", {"text": "This information is not in the provided documents."}
+        return
+
+    # Fresh retrieval for the latest question.
+    docs = retrieve(question, engine["client"], engine["embedder"])
+    # Off-topic gate: no chunk cleared the similarity bar, so there's nothing to
+    # ground an answer in. Reply plainly instead of letting the model answer
+    # from training knowledge.
+    if not docs:
+        yield "token", {"text": "This information is not in the provided documents."}
+        return
+
+    yield "sources", build_sources(docs)
+    for token in stream_answer(messages, docs):
+        yield "token", {"text": token}
+
+
 @router.post("/chat")
 def chat(request: ChatRequest):
     def event_stream():
@@ -54,26 +80,9 @@ def chat(request: ChatRequest):
             return
 
         messages = [m.model_dump() for m in request.messages]
-        question = messages[-1]["content"]
-
-        if _is_injection(question):
-            yield _sse("token", {"text": "This information is not in the provided documents."})
-            yield _sse("done", {})
-            return
-
         try:
-            # Fresh retrieval for the latest question.
-            docs = retrieve(question, engine["client"], engine["embedder"])
-            # Off-topic gate: no chunk cleared the similarity bar, so there's
-            # nothing to ground an answer in. Reply plainly instead of letting
-            # the model answer from training knowledge.
-            if not docs:
-                yield _sse("token", {"text": "This information is not in the provided documents."})
-                yield _sse("done", {})
-                return
-            yield _sse("sources", build_sources(docs))
-            for token in stream_answer(messages, docs):
-                yield _sse("token", {"text": token})
+            for event, data in _run_chat(messages):
+                yield _sse(event, data)
             yield _sse("done", {})
         except Exception as e:
             yield _sse("error", {"message": str(e)})
