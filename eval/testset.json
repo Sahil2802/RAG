@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "question": "How many English tweets were used to pre-train BERTweet?",
+    "ground_truth_answer": "BERTweet was pre-trained on 850 million English tweets (80 GB uncompressed text, 16 billion word tokens).",
+    "ground_truth_context": ["850M English tweets", "80GB uncompressed", "16B word tokens", "Archive Team Twitter Stream"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 2,
+    "question": "What subword vocabulary size did BERTweet use for tokenization?",
+    "ground_truth_answer": "BERTweet used fastBPE tokenization with a 64K subword vocabulary.",
+    "ground_truth_context": ["fastBPE", "64K subword vocabulary", "average 25 subword tokens per tweet"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 3,
+    "question": "How long did it take to train BERTweet, and how many training epochs were used?",
+    "ground_truth_answer": "BERTweet was trained for 40 epochs, which took approximately 4 weeks.",
+    "ground_truth_context": ["40 epochs", "4 weeks", "2 epochs warmup", "950K training steps"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "paraphrase",
+    "authoring_notes": "Question asks for duration and epochs separately; both are in the same chunk."
+  },
+  {
+    "id": 4,
+    "question": "What GPU hardware was used to train BERTweet?",
+    "ground_truth_answer": "BERTweet was trained on 8 NVIDIA V100 GPUs, each with 32 GB of memory.",
+    "ground_truth_context": ["8 V100 GPUs", "32GB", "hardware"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 5,
+    "question": "How does BERTweet handle URLs during preprocessing?",
+    "ground_truth_answer": "BERTweet normalizes all URLs to the token HTTPURL during preprocessing.",
+    "ground_truth_context": ["URLs", "HTTPURL", "user mentions normalized to @USER", "NLTK TweetTokenizer"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 6,
+    "question": "What was BERTweet's F1 score on the WNUT17 named entity recognition task compared to RoBERTabase?",
+    "ground_truth_answer": "BERTweet achieved 56.5 entity-soft F1 on WNUT17, compared to RoBERTabase's 49.7 F1 — an improvement of about 6.8 points.",
+    "ground_truth_context": ["WNUT17", "56.5", "RoBERTabase", "49.7", "NER F1"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "multi_hop",
+    "authoring_notes": "Requires retrieving both BERTweet WNUT17 results and RoBERTabase baseline results."
+  },
+  {
+    "id": 7,
+    "question": "Did applying hard lexical normalization improve BERTweet's downstream task performance?",
+    "ground_truth_answer": "No. The hard lexical normalization strategy consistently worsened performance compared to the soft normalization approach. The authors describe lexical normalization as a lossy translation task.",
+    "ground_truth_context": ["lexical normalization", "hard", "soft", "lossy translation", "consistently worsens"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "negation",
+    "authoring_notes": "Key negative finding — model without normalization outperforms normalized variant."
+  },
+  {
+    "id": 8,
+    "question": "What is the maximum tweet length filter applied during BERTweet pre-training data collection?",
+    "ground_truth_answer": "Tweets were filtered to have a minimum of 10 and a maximum of 64 word tokens.",
+    "ground_truth_context": ["minimum 10", "maximum 64 word tokens", "tweet length filter"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 9,
+    "question": "How many annotated comments are in the Wikipedia toxic comment dataset used in the Challenges paper?",
+    "ground_truth_answer": "The Wikipedia dataset contains 223,549 annotated comments from Wikipedia talk pages.",
+    "ground_truth_context": ["223,549", "Wikipedia talk pages", "annotated comments"],
+    "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 10,
+    "question": "What percentage of comments in the Wikipedia dataset are classified as clean?",
+    "ground_truth_answer": "90% of comments (201,081 out of 223,549) in the Wikipedia dataset are labeled clean.",
+    "ground_truth_context": ["clean", "201,081", "90%", "class distribution", "severe class imbalance"],
+    "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  }
+]
