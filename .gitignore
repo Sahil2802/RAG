@@ -17,6 +17,7 @@ qdrant_storage/
 
 *.ipynb
 *.md
+!README.md
 .vscode/
 
 graphify-out/
