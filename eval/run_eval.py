@@ -1,3 +1,9 @@
+# Harness that drives the eval run: loops over the testset, calls retrieve()
+# + generate() per question, and hands each (question, answer, contexts) off
+# to ragas_eval.score_single() for the actual RAGAS judging. This file does
+# not compute any RAGAS scores itself -- it only aggregates the per-question
+# scores ragas_eval.py returns (mean/p50/p95) plus its own metrics that RAGAS
+# doesn't cover (retrieval hit_rate, latency).
 import os
 import sys
 import json
@@ -37,12 +43,16 @@ METRIC_KEYS = ["faithfulness", "answer_relevancy", "context_precision", "context
 
 
 def _pct(data: list, p: int) -> float:
+    # statistics.quantiles requires at least 2 points, so fall back to the
+    # single value (or None) for smoke tests / tiny testsets.
     if len(data) < 2:
         return data[0] if data else None
     return statistics.quantiles(data, n=100)[p - 1]
 
 
 def _agg_ragas(results: list[dict], key: str) -> dict:
+    # Skip entries where the ragas judge failed/returned None for this metric,
+    # so a single bad score doesn't skew or crash the aggregate.
     vals = [r["ragas_scores"][key] for r in results if (r["ragas_scores"] or {}).get(key) is not None]
     if not vals:
         return {"mean": None, "p50": None, "p95": None}
@@ -60,6 +70,9 @@ def _agg_lat(ms_list: list[int]) -> dict:
 
 
 def _hit_rate(gt_ids: list[dict], retrieved_meta: list[tuple]) -> float | None:
+    # Fraction of ground-truth chunks that appear anywhere in the retrieved set.
+    # chunk_index is optional in the ground truth: when absent, a paper_id match
+    # alone counts as a hit (paper-level, not chunk-level, ground truth).
     if not gt_ids:
         return None
     matched = 0

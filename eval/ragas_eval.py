@@ -56,7 +56,7 @@ def score_single(
             metrics=_metrics,
             llm=_llm_wrapper,
             embeddings=_emb_wrapper,
-            # 180s/job timeout - run them one at a time with more headroom instead
+            # run them one at a time with more headroom instead
             run_config=RunConfig(timeout=600, max_workers=1),
         )
         # one-sample dataset -> grab row 0 of the pandas result
@@ -68,8 +68,7 @@ def score_single(
             "context_recall": _safe_float(row.get("context_recall")),
         }
     except Exception as exc:
-        # don't let one bad sample (e.g. Ollama down, malformed judge output)
-        # kill the whole eval run over many questions
+        # don't let one bad sample (e.g. Ollama down, malformed judge output) abort the whole run of many questions
         return {
             "faithfulness": None,
             "answer_relevancy": None,
