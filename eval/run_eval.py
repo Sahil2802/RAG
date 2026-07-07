@@ -8,6 +8,7 @@ import os
 import sys
 import json
 import time
+import random
 import statistics
 import importlib.metadata
 from datetime import datetime, timezone
@@ -29,7 +30,7 @@ load_dotenv(BACKEND_DIR / ".env")
 # set RAGAS_EVAL_ENABLED=true (e.g. in backend/.env) when you actually want to run it
 RAGAS_EVAL_ENABLED = os.getenv("RAGAS_EVAL_ENABLED", "false").lower() == "true"
 
-import observability  # noqa: F401 — activates LangSmith tracing
+import observability  # noqa: F401 - activates LangSmith tracing
 from vectorstore.qdrant_store import load_store
 from embedding.embedder import Embedder
 from retriever.retriever import retrieve
@@ -69,6 +70,31 @@ def _agg_lat(ms_list: list[int]) -> dict:
     return {"p50": _pct(ms_list, 50), "p95": _pct(ms_list, 95)}
 
 
+def _proportional_sample(testset: list[dict], n: int, seed: int = 42) -> list[dict]:
+    # Proportionally draws from each retrieval_challenge category (largest-remainder
+    # rounding so the shares sum exactly to n) instead of a flat testset[:n] slice,
+    # which would skew toward whichever category is ordered first in the file.
+    if n >= len(testset):
+        return testset
+
+    by_challenge: dict[str, list[dict]] = {}
+    for entry in testset:
+        by_challenge.setdefault(entry["retrieval_challenge"], []).append(entry)
+
+    rng = random.Random(seed)
+    raw_shares = {ch: n * len(entries) / len(testset) for ch, entries in by_challenge.items()}
+    shares = {ch: int(share) for ch, share in raw_shares.items()}
+    remainder = n - sum(shares.values())
+    for ch, _ in sorted(raw_shares.items(), key=lambda kv: kv[1] - shares[kv[0]], reverse=True)[:remainder]:
+        shares[ch] += 1
+
+    sample = []
+    for ch, entries in by_challenge.items():
+        sample.extend(rng.sample(entries, min(shares[ch], len(entries))))
+    rng.shuffle(sample)
+    return sample
+
+
 def _hit_rate(gt_ids: list[dict], retrieved_meta: list[tuple]) -> float | None:
     # Fraction of ground-truth chunks that appear anywhere in the retrieved set.
     # chunk_index is optional in the ground truth: when absent, a paper_id match
@@ -86,7 +112,7 @@ def _hit_rate(gt_ids: list[dict], retrieved_meta: list[tuple]) -> float | None:
     return round(matched / len(gt_ids), 4)
 
 
-def main(smoke: int = 0):
+def main(smoke: int = 0, sample: int = 0):
     RESULTS_DIR.mkdir(exist_ok=True)
 
     with open(TESTSET_PATH) as f:
@@ -95,6 +121,9 @@ def main(smoke: int = 0):
     if smoke:
         testset = testset[:smoke]
         print(f"Smoke test: running {smoke} questions")
+    elif sample:
+        testset = _proportional_sample(testset, sample)
+        print(f"Proportional sample: running {len(testset)} questions (seed=42)")
 
     client = load_store(STORE_DIR)
     embedder = Embedder()
@@ -196,7 +225,12 @@ def main(smoke: int = 0):
         "results": per_results,
     }
 
-    out_path = BASELINE_PATH if not smoke else RESULTS_DIR / "smoke.json"
+    if smoke:
+        out_path = RESULTS_DIR / "smoke.json"
+    elif sample:
+        out_path = RESULTS_DIR / "sample.json"
+    else:
+        out_path = BASELINE_PATH
     with open(out_path, "w") as f:
         json.dump(baseline, f, indent=2)
 
@@ -219,6 +253,8 @@ if __name__ == "__main__":
 
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--smoke", type=int, default=0, help="Run only N questions (smoke test)")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--smoke", type=int, default=0, help="Run only the first N questions (smoke test)")
+    group.add_argument("--sample", type=int, default=0, help="Run a sample of N questions, drawn proportionally across retrieval_challenge categories")
     args = parser.parse_args()
-    main(smoke=args.smoke)
+    main(smoke=args.smoke, sample=args.sample)
