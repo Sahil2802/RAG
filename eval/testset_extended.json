@@ -47,7 +47,7 @@
   {
     "id": 6,
     "question": "What was BERTweet's F1 score on the WNUT17 named entity recognition task compared to RoBERTabase?",
-    "ground_truth_answer": "BERTweet achieved 56.5 entity-soft F1 on WNUT17, compared to RoBERTabase's 49.7 F1 — an improvement of about 6.8 points.",
+    "ground_truth_answer": "BERTweet achieved 56.5 entity-soft F1 on WNUT17, compared to RoBERTabase's 49.7 F1 - an improvement of about 6.8 points.",
     "ground_truth_context": ["WNUT17", "56.5", "RoBERTabase", "49.7", "NER F1"],
     "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
     "retrieval_challenge": "multi_hop",
@@ -60,7 +60,7 @@
     "ground_truth_context": ["lexical normalization", "hard", "soft", "lossy translation", "consistently worsens"],
     "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
     "retrieval_challenge": "negation",
-    "authoring_notes": "Key negative finding — model without normalization outperforms normalized variant."
+    "authoring_notes": "Key negative finding - model without normalization outperforms normalized variant."
   },
   {
     "id": 8,
@@ -119,7 +119,7 @@
   {
     "id": 14,
     "question": "What fraction of Wikipedia false positives were found to actually be toxic (mislabeled as clean)?",
-    "ground_truth_answer": "53% of Wikipedia false positives were actually toxic — the ground truth labels were incorrect, indicating significant annotation inconsistency in the dataset.",
+    "ground_truth_answer": "53% of Wikipedia false positives were actually toxic - the ground truth labels were incorrect, indicating significant annotation inconsistency in the dataset.",
     "ground_truth_context": ["53%", "false positives", "mislabeled", "doubtful labels", "annotator"],
     "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
     "retrieval_challenge": "exact_term",
@@ -137,7 +137,7 @@
   {
     "id": 16,
     "question": "Why is the ensemble in the Challenges paper effective, and what correlation range separates useful vs redundant classifier pairings?",
-    "ground_truth_answer": "Ensemble effectiveness is inversely correlated with the Pearson correlation between component classifiers. Shallow+deep combinations score 0.84–0.86 (useful diversity), while combining classifiers with different word embeddings scores 0.90–0.96 (redundant — predictions are too similar to add diversity).",
+    "ground_truth_answer": "Ensemble effectiveness is inversely correlated with the Pearson correlation between component classifiers. Shallow+deep combinations score 0.84–0.86 (useful diversity), while combining classifiers with different word embeddings scores 0.90–0.96 (redundant - predictions are too similar to add diversity).",
     "ground_truth_context": ["Pearson correlation", "0.84", "0.86", "shallow", "deep", "diversity", "0.90", "0.96", "ensemble"],
     "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
     "retrieval_challenge": "multi_hop",
@@ -218,7 +218,7 @@
   {
     "id": 25,
     "question": "What is the highest test accuracy achieved by any model in the LSTM-CNN paper?",
-    "ground_truth_answer": "The highest test accuracy is 91.17%, achieved by Model E — the LSTM-CNN hybrid with filter size 5×600.",
+    "ground_truth_answer": "The highest test accuracy is 91.17%, achieved by Model E - the LSTM-CNN hybrid with filter size 5×600.",
     "ground_truth_context": ["91.17%", "Model E", "filter size 5×600", "test", "LSTM-CNN"],
     "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
     "retrieval_challenge": "exact_term",
@@ -301,7 +301,7 @@
   {
     "id": 34,
     "question": "Which papers use pre-trained word embeddings and which use randomly initialized embeddings?",
-    "ground_truth_answer": "CNNfix uses pre-trained word2vec (Google News, 3M vocab, 300-dim). The Challenges paper uses pre-trained GloVe (Twitter) and custom FastText. BERTweet uses BERT-style large-scale pre-training on 850M tweets. The LSTM-CNN paper uses randomly initialized 128-dimensional embeddings updated during training — it is the only paper not using any pre-trained embeddings.",
+    "ground_truth_answer": "CNNfix uses pre-trained word2vec (Google News, 3M vocab, 300-dim). The Challenges paper uses pre-trained GloVe (Twitter) and custom FastText. BERTweet uses BERT-style large-scale pre-training on 850M tweets. The LSTM-CNN paper uses randomly initialized 128-dimensional embeddings updated during training - it is the only paper not using any pre-trained embeddings.",
     "ground_truth_context": ["word2vec", "GloVe", "FastText", "BERTweet pre-training", "randomly initialized", "128"],
     "ground_truth_chunk_ids": [
       {"paper_id": "BERTweet", "chunk_index": null},
@@ -339,7 +339,7 @@
   {
     "id": 37,
     "question": "Comparing both toxic comment papers, what is the highest F1 score reported for toxic comment classification?",
-    "ground_truth_answer": "The Challenges paper reports the highest F1 of 0.791 (ensemble on Wikipedia dataset). The CNN paper reports accuracy, not F1, making direct comparison difficult — the tasks also differ (binary vs multi-label). No paper in this corpus achieves F1 above 0.8 for toxic comment classification.",
+    "ground_truth_answer": "The Challenges paper reports the highest F1 of 0.791 (ensemble on Wikipedia dataset). The CNN paper reports accuracy, not F1, making direct comparison difficult - the tasks also differ (binary vs multi-label). No paper in this corpus achieves F1 above 0.8 for toxic comment classification.",
     "ground_truth_context": ["0.791", "ensemble", "F1", "binary", "multi-label", "accuracy", "0.912"],
     "ground_truth_chunk_ids": [
       {"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null},
@@ -351,7 +351,7 @@
   {
     "id": 38,
     "question": "How do BERTweet and the Challenges paper differ in their approach to handling out-of-vocabulary words?",
-    "ground_truth_answer": "BERTweet uses fastBPE subword tokenization which decomposes any word into known subword units, effectively eliminating true OOV words. The Challenges paper uses FastText embeddings (trained on 95M Wikipedia comments), which handle OOV via character n-grams — plus a character-level CNN to detect obfuscations. Despite this, idiosyncratic/rare words remain the largest error source on Twitter (43% of false negatives).",
+    "ground_truth_answer": "BERTweet uses fastBPE subword tokenization which decomposes any word into known subword units, effectively eliminating true OOV words. The Challenges paper uses FastText embeddings (trained on 95M Wikipedia comments), which handle OOV via character n-grams - plus a character-level CNN to detect obfuscations. Despite this, idiosyncratic/rare words remain the largest error source on Twitter (43% of false negatives).",
     "ground_truth_context": ["fastBPE", "subword", "FastText", "character n-grams", "OOV", "rare words", "43%", "obfuscation"],
     "ground_truth_chunk_ids": [
       {"paper_id": "BERTweet", "chunk_index": null},
@@ -385,7 +385,7 @@
     "ground_truth_context": ["Subjectivity dataset", "subjective", "objective", "movie review", "Rotten Tomatoes", "IMDb"],
     "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
     "retrieval_challenge": "negation",
-    "authoring_notes": "Common confusion — this paper is about subjectivity, not toxicity."
+    "authoring_notes": "Common confusion - this paper is about subjectivity, not toxicity."
   },
   {
     "id": 42,
@@ -403,6 +403,6 @@
     "ground_truth_context": ["accuracy", "specificity", "False Discovery Rate", "FDR", "boxplot", "Table 1"],
     "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
     "retrieval_challenge": "negation",
-    "authoring_notes": "Tests metric reporting distinctions — model should not fabricate an F1 table."
+    "authoring_notes": "Tests metric reporting distinctions - model should not fabricate an F1 table."
   }
 ]

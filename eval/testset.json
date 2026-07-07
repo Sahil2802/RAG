@@ -47,7 +47,7 @@
   {
     "id": 6,
     "question": "What was BERTweet's F1 score on the WNUT17 named entity recognition task compared to RoBERTabase?",
-    "ground_truth_answer": "BERTweet achieved 56.5 entity-soft F1 on WNUT17, compared to RoBERTabase's 49.7 F1 — an improvement of about 6.8 points.",
+    "ground_truth_answer": "BERTweet achieved 56.5 entity-soft F1 on WNUT17, compared to RoBERTabase's 49.7 F1 - an improvement of about 6.8 points.",
     "ground_truth_context": ["WNUT17", "56.5", "RoBERTabase", "49.7", "NER F1"],
     "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
     "retrieval_challenge": "multi_hop",
@@ -60,7 +60,7 @@
     "ground_truth_context": ["lexical normalization", "hard", "soft", "lossy translation", "consistently worsens"],
     "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
     "retrieval_challenge": "negation",
-    "authoring_notes": "Key negative finding — model without normalization outperforms normalized variant."
+    "authoring_notes": "Key negative finding - model without normalization outperforms normalized variant."
   },
   {
     "id": 8,
@@ -88,5 +88,294 @@
     "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
     "retrieval_challenge": "exact_term",
     "authoring_notes": null
+  },
+  {
+    "id": 11,
+    "question": "What is the least frequent toxicity category in the Wikipedia dataset, and how many examples does it have?",
+    "ground_truth_answer": "Threat is the rarest class with only 689 examples (0.3% of the dataset).",
+    "ground_truth_context": ["Threat", "689", "0.3%", "smallest class", "class distribution"],
+    "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 12,
+    "question": "What F1 score did the ensemble achieve on the Wikipedia toxic comment dataset?",
+    "ground_truth_answer": "The ensemble achieved an F1 score of 0.791 on the Wikipedia dataset.",
+    "ground_truth_context": ["ensemble", "0.791", "F1", "Wikipedia"],
+    "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 13,
+    "question": "What is the most common reason models incorrectly miss toxic comments in the Wikipedia dataset?",
+    "ground_truth_answer": "The largest false negative category is toxicity without swear words, accounting for 50% of missed toxic comments. These are hateful comments that convey hostile meaning without using obvious profanity.",
+    "ground_truth_context": ["toxicity without swear words", "50%", "false negatives", "hateful meaning", "paradigmatic context"],
+    "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
+    "retrieval_challenge": "paraphrase",
+    "authoring_notes": "Phrased as 'incorrectly miss' rather than 'false negatives'."
+  },
+  {
+    "id": 14,
+    "question": "What fraction of Wikipedia false positives were found to actually be toxic (mislabeled as clean)?",
+    "ground_truth_answer": "53% of Wikipedia false positives were actually toxic - the ground truth labels were incorrect, indicating significant annotation inconsistency in the dataset.",
+    "ground_truth_context": ["53%", "false positives", "mislabeled", "doubtful labels", "annotator"],
+    "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": "Counterintuitive finding about label quality."
+  },
+  {
+    "id": 15,
+    "question": "What domain-specific word embeddings were trained for the Challenges paper, and on what data?",
+    "ground_truth_answer": "FastText embeddings were trained on 95 million Wikipedia user and article talk page comments using skip-gram with context window size 5 for 5 epochs.",
+    "ground_truth_context": ["FastText", "95 million", "Wikipedia", "skip-gram", "context window size 5", "5 epochs"],
+    "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 16,
+    "question": "Why is the ensemble in the Challenges paper effective, and what correlation range separates useful vs redundant classifier pairings?",
+    "ground_truth_answer": "Ensemble effectiveness is inversely correlated with the Pearson correlation between component classifiers. Shallow+deep combinations score 0.84–0.86 (useful diversity), while combining classifiers with different word embeddings scores 0.90–0.96 (redundant - predictions are too similar to add diversity).",
+    "ground_truth_context": ["Pearson correlation", "0.84", "0.86", "shallow", "deep", "diversity", "0.90", "0.96", "ensemble"],
+    "ground_truth_chunk_ids": [{"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}],
+    "retrieval_challenge": "multi_hop",
+    "authoring_notes": "Requires combining the ensemble effectiveness claim with the correlation table."
+  },
+  {
+    "id": 17,
+    "question": "What accuracy did CNNfix achieve on the toxic comment classification task?",
+    "ground_truth_answer": "CNNfix achieved an accuracy of 0.912 ± 0.002 on the toxic comment classification task.",
+    "ground_truth_context": ["CNNfix", "0.912", "accuracy", "0.002"],
+    "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 18,
+    "question": "What pre-trained word embeddings did the CNNfix model use?",
+    "ground_truth_answer": "CNNfix used word2vec embeddings pre-trained on 100 billion words from Google News, with a vocabulary of 3 million words and 300-dimensional vectors.",
+    "ground_truth_context": ["word2vec", "100 billion", "Google News", "3 million", "300"],
+    "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 19,
+    "question": "What filter heights were used in the CNN for toxic comment classification?",
+    "ground_truth_answer": "The CNN used three convolutional layers with filter heights of 3, 4, and 5, applied in parallel. Each filter had a width of 128.",
+    "ground_truth_context": ["filter heights", "3, 4, and 5", "parallel", "filter size", "128"],
+    "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 20,
+    "question": "What learning rate was used to train the CNN models in the toxic comment paper?",
+    "ground_truth_answer": "The CNN models were trained with a learning rate of 0.005 using stochastic gradient descent.",
+    "ground_truth_context": ["learning rate", "0.005", "SGD", "stochastic gradient descent"],
+    "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 21,
+    "question": "How many random train-test separations were used to evaluate the CNN models for toxic comment classification?",
+    "ground_truth_answer": "The models were evaluated over 20 random train-test separations to ensure robust inferences.",
+    "ground_truth_context": ["20", "random", "train-test separations", "robust"],
+    "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 22,
+    "question": "What accuracy did SVM achieve on the toxic comment classification Kaggle dataset?",
+    "ground_truth_answer": "SVM achieved an accuracy of 0.811 ± 0.007 on the Kaggle toxic comment dataset.",
+    "ground_truth_context": ["SVM", "0.811", "accuracy"],
+    "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 23,
+    "question": "Which baseline model had the lowest classification accuracy in the CNN toxic comment paper?",
+    "ground_truth_answer": "k-Nearest Neighbors (kNN with k=7) had the lowest accuracy at 0.697 ± 0.008.",
+    "ground_truth_context": ["kNN", "k=7", "0.697", "lowest"],
+    "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 24,
+    "question": "What is the dimensionality of the word representations used in the CNN model for toxic comment classification?",
+    "ground_truth_answer": "The CNN model uses 300-dimensional word embeddings, matching the word2vec Google News embedding size.",
+    "ground_truth_context": ["300", "dimension", "embedding", "word2vec"],
+    "ground_truth_chunk_ids": [{"paper_id": "CNNs for toxic comment classification", "chunk_index": null}],
+    "retrieval_challenge": "paraphrase",
+    "authoring_notes": "Question uses 'dimensionality of word representations' instead of 'embedding dimension'."
+  },
+  {
+    "id": 25,
+    "question": "What is the highest test accuracy achieved by any model in the LSTM-CNN paper?",
+    "ground_truth_answer": "The highest test accuracy is 91.17%, achieved by Model E - the LSTM-CNN hybrid with filter size 5×600.",
+    "ground_truth_context": ["91.17%", "Model E", "filter size 5×600", "test", "LSTM-CNN"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 26,
+    "question": "What dataset was used in the LSTM-CNN text classification paper?",
+    "ground_truth_answer": "The paper used the Subjectivity dataset v1.0 from Movie Review Data, containing 5,000 movie reviews from Rotten Tomatoes (subjective) and 5,000 movie summaries from IMDb (objective), for a total of 10,000 samples.",
+    "ground_truth_context": ["Subjectivity dataset", "Movie Review Data", "Rotten Tomatoes", "IMDb", "5,000", "10,000", "subjective", "objective"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 27,
+    "question": "How many hidden units does the LSTM layer use in the LSTM-CNN model?",
+    "ground_truth_answer": "The LSTM layer uses 600 hidden nodes.",
+    "ground_truth_context": ["600", "hidden nodes", "LSTM", "memory cell"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 28,
+    "question": "Which CNN filter size produced the best results in the LSTM-CNN hybrid model, and why?",
+    "ground_truth_answer": "Filter size 5×600 (height 5, width 600 matching the LSTM hidden dimension) produced the best results at 91.17% test accuracy. The width matches the LSTM output dimension so the CNN operates on the full LSTM feature space rather than a reduced window.",
+    "ground_truth_context": ["5×600", "filter size", "91.17%", "LSTM hidden dimension", "n-gram", "10×10"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "multi_hop",
+    "authoring_notes": "Requires combining the results table with the architectural rationale."
+  },
+  {
+    "id": 29,
+    "question": "What word embedding dimension was used in the LSTM-CNN model?",
+    "ground_truth_answer": "The LSTM-CNN model uses 128-dimensional word embeddings, randomly initialized and updated during training via backpropagation.",
+    "ground_truth_context": ["128", "embedding", "randomly initialized", "backpropagation", "dynamic updating"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 30,
+    "question": "What optimizer and learning rate were used to train the LSTM-CNN model?",
+    "ground_truth_answer": "The LSTM-CNN model was trained with Stochastic Gradient Descent (SGD) with a learning rate of 0.1.",
+    "ground_truth_context": ["SGD", "stochastic gradient descent", "learning rate", "0.1"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 31,
+    "question": "Why does the LSTM-CNN paper recommend setting the CNN filter width equal to the LSTM hidden dimension rather than the word embedding dimension?",
+    "ground_truth_answer": "The paper recommends an n×m filter format where m matches the LSTM hidden dimension (600) rather than the word embedding dimension (128). This is inspired by the N-gram Language Model: the CNN operates on LSTM output vectors, so the filter must span the full LSTM feature space to extract meaningful local patterns from adjacent words.",
+    "ground_truth_context": ["n × m", "LSTM hidden dimension", "N-gram Language Model", "adjacent n words", "local features", "filter width"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "multi_hop",
+    "authoring_notes": "Requires understanding both the architectural choice and its motivation from N-gram reasoning."
+  },
+  {
+    "id": 32,
+    "question": "What fixed input sequence length was used for the LSTM-CNN model?",
+    "ground_truth_answer": "Input sequences were normalized to 40 words, padded with zeros for shorter sequences and truncated for longer ones.",
+    "ground_truth_context": ["40 words", "padded", "truncated", "sequence length", "MASK matrix"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "exact_term",
+    "authoring_notes": null
+  },
+  {
+    "id": 33,
+    "question": "Which paper in the corpus uses the largest pre-training dataset?",
+    "ground_truth_answer": "BERTweet uses the largest pre-training corpus: 850 million English tweets (80 GB uncompressed). The other papers use datasets orders of magnitude smaller for training or fine-tuning.",
+    "ground_truth_context": ["850M", "80GB", "BERTweet", "pre-training", "corpus"],
+    "ground_truth_chunk_ids": [
+      {"paper_id": "BERTweet", "chunk_index": null}
+    ],
+    "retrieval_challenge": "cross_paper",
+    "authoring_notes": "Answer is grounded in BERTweet paper; other papers' dataset sizes are far smaller."
+  },
+  {
+    "id": 34,
+    "question": "Which papers use pre-trained word embeddings and which use randomly initialized embeddings?",
+    "ground_truth_answer": "CNNfix uses pre-trained word2vec (Google News, 3M vocab, 300-dim). The Challenges paper uses pre-trained GloVe (Twitter) and custom FastText. BERTweet uses BERT-style large-scale pre-training on 850M tweets. The LSTM-CNN paper uses randomly initialized 128-dimensional embeddings updated during training - it is the only paper not using any pre-trained embeddings.",
+    "ground_truth_context": ["word2vec", "GloVe", "FastText", "BERTweet pre-training", "randomly initialized", "128"],
+    "ground_truth_chunk_ids": [
+      {"paper_id": "BERTweet", "chunk_index": null},
+      {"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null},
+      {"paper_id": "CNNs for toxic comment classification", "chunk_index": null},
+      {"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}
+    ],
+    "retrieval_challenge": "cross_paper",
+    "authoring_notes": "True cross-paper synthesis across all four papers."
+  },
+  {
+    "id": 35,
+    "question": "How does BERTweet's tokenization strategy differ from the one used in the CNN toxic comment paper?",
+    "ground_truth_answer": "BERTweet uses fastBPE subword tokenization with a 64K vocabulary, decomposing unknown words into subword units. The CNN paper uses word-level word2vec embeddings; words not in the 3-million-word vocabulary are randomly initialized, leaving true OOV words without meaningful representations.",
+    "ground_truth_context": ["fastBPE", "64K", "subword", "word2vec", "3 million", "randomly initialized", "OOV"],
+    "ground_truth_chunk_ids": [
+      {"paper_id": "BERTweet", "chunk_index": null},
+      {"paper_id": "CNNs for toxic comment classification", "chunk_index": null}
+    ],
+    "retrieval_challenge": "cross_paper",
+    "authoring_notes": null
+  },
+  {
+    "id": 36,
+    "question": "Which papers in the corpus use data from Wikipedia?",
+    "ground_truth_answer": "Two papers use Wikipedia-sourced data. The CNN paper uses the Kaggle toxic comment dataset derived from Wikipedia talk page edits. The Challenges paper uses the Wikipedia Jigsaw dataset (223,549 comments from Wikipedia talk pages) and also trained FastText embeddings on 95 million Wikipedia comments. BERTweet and the LSTM-CNN paper do not use Wikipedia data.",
+    "ground_truth_context": ["Wikipedia talk page", "Kaggle", "Jigsaw", "223,549", "95 million", "Wikipedia comments"],
+    "ground_truth_chunk_ids": [
+      {"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null},
+      {"paper_id": "CNNs for toxic comment classification", "chunk_index": null}
+    ],
+    "retrieval_challenge": "cross_paper",
+    "authoring_notes": "Both toxicity papers share Wikipedia as data source; the other two don't."
+  },
+  {
+    "id": 37,
+    "question": "Comparing both toxic comment papers, what is the highest F1 score reported for toxic comment classification?",
+    "ground_truth_answer": "The Challenges paper reports the highest F1 of 0.791 (ensemble on Wikipedia dataset). The CNN paper reports accuracy, not F1, making direct comparison difficult - the tasks also differ (binary vs multi-label). No paper in this corpus achieves F1 above 0.8 for toxic comment classification.",
+    "ground_truth_context": ["0.791", "ensemble", "F1", "binary", "multi-label", "accuracy", "0.912"],
+    "ground_truth_chunk_ids": [
+      {"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null},
+      {"paper_id": "CNNs for toxic comment classification", "chunk_index": null}
+    ],
+    "retrieval_challenge": "cross_paper",
+    "authoring_notes": "Requires noting they report different metrics on different task formulations."
+  },
+  {
+    "id": 38,
+    "question": "How do BERTweet and the Challenges paper differ in their approach to handling out-of-vocabulary words?",
+    "ground_truth_answer": "BERTweet uses fastBPE subword tokenization which decomposes any word into known subword units, effectively eliminating true OOV words. The Challenges paper uses FastText embeddings (trained on 95M Wikipedia comments), which handle OOV via character n-grams - plus a character-level CNN to detect obfuscations. Despite this, idiosyncratic/rare words remain the largest error source on Twitter (43% of false negatives).",
+    "ground_truth_context": ["fastBPE", "subword", "FastText", "character n-grams", "OOV", "rare words", "43%", "obfuscation"],
+    "ground_truth_chunk_ids": [
+      {"paper_id": "BERTweet", "chunk_index": null},
+      {"paper_id": "Challenges for Toxic Comment Classification", "chunk_index": null}
+    ],
+    "retrieval_challenge": "cross_paper",
+    "authoring_notes": null
+  },
+  {
+    "id": 39,
+    "question": "Does the LSTM-CNN paper include any comparison against BERT or transformer-based models?",
+    "ground_truth_answer": "No. The LSTM-CNN paper (published at IEEE IAEAC 2018) does not include any transformer-based comparisons. It only compares internal model variants: a CNN baseline, an LSTM baseline, and two LSTM-CNN hybrid configurations with different filter sizes.",
+    "ground_truth_context": ["IAEAC 2018", "Model A", "Model B", "Model C", "Model D", "Model E", "CNN", "LSTM"],
+    "ground_truth_chunk_ids": [{"paper_id": "LSTM-CNN Hybrid Model for Text Classification", "chunk_index": null}],
+    "retrieval_challenge": "negation",
+    "authoring_notes": "2018 paper predates widespread BERT use; question tests absent fact."
+  },
+  {
+    "id": 40,
+    "question": "Did the BERTweet paper release a large-size BERTweet model?",
+    "ground_truth_answer": "No. The BERTweet paper only releases a base-size model (BERTbase configuration). A large-size BERTweet is mentioned as future work but was not released as part of this publication.",
+    "ground_truth_context": ["BERTbase", "large-size", "future work", "base-size"],
+    "ground_truth_chunk_ids": [{"paper_id": "BERTweet", "chunk_index": null}],
+    "retrieval_challenge": "negation",
+    "authoring_notes": "Tests whether the model knows what was NOT released."
   }
 ]

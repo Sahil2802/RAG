@@ -23,7 +23,7 @@ _metrics = None
 def _init():
     global _llm_wrapper, _emb_wrapper, _metrics
     if _llm_wrapper is None:
-        # local llama3.1:8b via Ollama acts as the ragas judge LLM -- llama3.2:3b
+        # local llama3.1:8b via Ollama acts as the ragas judge LLM - llama3.2:3b
         # was too unreliable at following ragas's structured JSON output format
         _llm_wrapper = LangchainLLMWrapper(ChatOllama(model="llama3.1:8b", temperature=0))
         # same embedding model as the retriever, used by embedding-based metrics

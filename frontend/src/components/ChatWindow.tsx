@@ -35,7 +35,7 @@ export function ChatWindow({ messages }: ChatWindowProps) {
             className="text-sm leading-relaxed"
             style={{ color: 'var(--color-ink-subtle)' }}
           >
-            Your knowledge base is indexed and ready. Questions, summaries, comparisons — anything in the text.
+            Your knowledge base is indexed and ready. Questions, summaries, comparisons - anything in the text.
           </p>
 
           <div

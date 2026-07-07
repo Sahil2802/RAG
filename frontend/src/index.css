@@ -5,7 +5,7 @@
 @theme {
   --font-sans: 'Inter', system-ui, sans-serif;
 
-  /* Base surfaces — pure neutral dark, no hue tint */
+  /* Base surfaces - pure neutral dark, no hue tint */
   --color-bg:            oklch(0.10 0 0);
   --color-surface:       oklch(0.15 0 0);
   --color-surface-2:     oklch(0.20 0 0);
@@ -15,12 +15,12 @@
   --color-border:        oklch(0.26 0 0);
   --color-border-strong: oklch(0.34 0 0);
 
-  /* Ink — warm off-white, not stark white */
+  /* Ink - warm off-white, not stark white */
   --color-ink:           oklch(0.93 0.005 68);
   --color-ink-muted:     oklch(0.58 0.007 65);
   --color-ink-subtle:    oklch(0.36 0.004 60);
 
-  /* Amber — the single brand color. Warm, archival, amber glass. */
+  /* Amber - the single brand color. Warm, archival, amber glass. */
   --color-amber:         oklch(0.75 0.140 46);
   --color-amber-dim:     oklch(0.18 0.050 48);
   --color-amber-ring:    oklch(0.75 0.140 46 / 0.4);

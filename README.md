@@ -69,11 +69,11 @@ python run_eval.py              # full run against testset.json -> results/basel
 
 ## Key Dependencies
 
-- `fastapi` — API server, SSE streaming chat endpoint
-- `qdrant-client` — vector store
-- `sentence-transformers` — `BAAI/bge-small-en-v1.5` embedding model
-- `langchain-ollama` — LLM integration (`llama3.2` for generation)
-- `langsmith` — tracing across chat, retrieval, and generation
-- `ragas` — RAG evaluation metrics, judged locally via `llama3.1:8b` through Ollama
-- `react`, `vite`, `tailwindcss` — chat frontend
+- `fastapi` - API server, SSE streaming chat endpoint
+- `qdrant-client` - vector store
+- `sentence-transformers` - `BAAI/bge-small-en-v1.5` embedding model
+- `langchain-ollama` - LLM integration (`llama3.2` for generation)
+- `langsmith` - tracing across chat, retrieval, and generation
+- `ragas` - RAG evaluation metrics, judged locally via `llama3.1:8b` through Ollama
+- `react`, `vite`, `tailwindcss` - chat frontend
 - Ollama running locally with `llama3.2` and `llama3.1:8b` pulled

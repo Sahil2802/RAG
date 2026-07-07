@@ -70,7 +70,7 @@ export function useChat(): {
 
         buffer += decoder.decode(value, { stream: true });
 
-        // Split on double newline — each SSE event block ends with \n\n
+        // Split on double newline - each SSE event block ends with \n\n
         const parts = buffer.split('\n\n');
         buffer = parts.pop() ?? '';
 
